@@ -6,7 +6,7 @@ function createGrid(rows, cols) {
 		for (let c = 0; c < cols; c++) {
 			const cell = document.createElement('div');
 			cell.classList.add('grid-column');
-			row.appendChild(cell)
+			row.appendChild(cell);
 		}
 		container.appendChild(row);
 	}
@@ -18,22 +18,32 @@ function gridHover() {
 	const cells = document.querySelectorAll('.grid-column');
 	cells.forEach(cell => {
 		cell.addEventListener('mouseover', () => {
-			cell.style.backgroundColor = 'black'
+			cell.style.backgroundColor = 'black';
 		});
 	});
 }
 
 gridHover();
 
-function gridButtonPrompt(userInput) {
+function gridButtonPrompt() {
     const gridBtn = document.querySelector('#size-btn');
     gridBtn.addEventListener('click', () => {
-        userInput = prompt('Enter new grid size from 1-64:');
-        console.log(userInput);
-        if (userInput > 64 || userInput < 1) {
-            alert('Invalid. Choose a number between 1-64')
+        let userInput = prompt('Enter new grid size from 1-64:');
+        userInput = parseInt(userInput);
+        if (userInput < 1 || userInput > 64) {
+            alert('Invalid. Choose a number between 1-64');
+        } else {
+            gridSize(userInput);
         }
-    })
+    });
 }
 
 gridButtonPrompt();
+
+function gridSize(userInput) {
+    // const container = document.getElementById('container');
+    let gridCells = document.querySelectorAll('.grid-row', 'grid-column');
+    gridCells.forEach(gridCell => gridCell.remove());
+    createGrid(userInput, userInput);
+}
+
