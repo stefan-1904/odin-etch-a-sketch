@@ -2,14 +2,21 @@ body {
     margin: 0px;
 }
 
+.grid-container {
+    margin-left: 50vw;
+    margin-right: 50vw;
+}
+
 .grid-row {
     display: flex;
+    flex-direction: row;
     height: 25px;
     width: 25px;
 }
 
 .grid-column {
     display: flex;
+    flex-direction: column;
     flex: 0 0 auto;
     border: 1px solid black;
     height: 23px;

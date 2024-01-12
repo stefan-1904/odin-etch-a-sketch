@@ -12,10 +12,10 @@ function createGrid(rows, cols) {
 	}
 }
 
-createGrid(16,16);
+createGrid(16, 16);
 
 function gridHover() {
-	let cells = document.querySelectorAll('.grid-column');
+	const cells = document.querySelectorAll('.grid-column');
 	cells.forEach(cell => {
 		cell.addEventListener('mouseover', () => {
 			cell.style.backgroundColor = 'black'
@@ -23,4 +23,17 @@ function gridHover() {
 	});
 }
 
-gridHover()
+gridHover();
+
+function gridButtonPrompt(userInput) {
+    const gridBtn = document.querySelector('#size-btn');
+    gridBtn.addEventListener('click', () => {
+        userInput = prompt('Enter new grid size from 1-64:');
+        console.log(userInput);
+        if (userInput > 64 || userInput < 1) {
+            alert('Invalid. Choose a number between 1-64')
+        }
+    })
+}
+
+gridButtonPrompt();
