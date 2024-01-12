@@ -41,9 +41,8 @@ function gridButtonPrompt() {
 gridButtonPrompt();
 
 function gridSize(userInput) {
-    // const container = document.getElementById('container');
     let gridCells = document.querySelectorAll('.grid-row', 'grid-column');
     gridCells.forEach(gridCell => gridCell.remove());
     createGrid(userInput, userInput);
+	gridHover();
 }
-
