@@ -1,8 +1,9 @@
 function createGrid(rows, cols) {
-    const container = document.getElementById('container');
+    let container = document.getElementById('container');
+    container.innerHTML = '';
 
     for (let r = 0; r < rows; r++) {
-        const row = document.createElement('div');
+        let row = document.createElement('div');
         row.classList.add('grid-row');
 
         for (let c = 0; c < cols; c++) {
@@ -12,39 +13,85 @@ function createGrid(rows, cols) {
         }
         container.appendChild(row);
     }
+
+    attachEventListeners();
 }
 
-createGrid(16, 16);
+function attachEventListeners() {
+    let container = document.getElementById('container');
+    
+    container.addEventListener('mouseover', handleGridHover);
+}
 
-function gridHover() {
-    const container = document.getElementById('container');
+function handleGridHover(event) {
+    let cell = event.target;
 
-    container.addEventListener('mouseover', (event) => {
-        if (event.target.classList.contains('grid-column')) {
-            event.target.style.backgroundColor = 'black';
+    if (cell.classList.contains('grid-column')) {
+        if (!cell.classList.contains('rainbow')) {
+            cell.style.backgroundColor = 'black';
+        } else {
+            cell.style.backgroundColor = randomColour();
         }
-    });
+    }
 }
-
-gridHover();
 
 function removeGrid() {
-    const container = document.getElementById('container');
+    let container = document.getElementById('container');
     container.innerHTML = '';
 }
 
 function gridButtonPrompt() {
-    const gridBtn = document.querySelector('#size-btn');
+    let gridBtn = document.querySelector('#size-btn');
+
     gridBtn.addEventListener('click', () => {
-        let userInput = prompt('Enter new grid size from 1-64:');
+        let userInput = prompt('Enter a new grid size from 1-100:');
         userInput = parseInt(userInput);
-        if (isNaN(userInput) || userInput < 1 || userInput > 64) {
+
+        if (isNaN(userInput) || userInput < 1 || userInput > 100) {
             alert('Invalid. Choose a number between 1-64');
         } else {
             removeGrid();
             createGrid(userInput, userInput);
+            alert(`The grid is now ${userInput} x ${userInput}`);
         }
     });
 }
 
-gridButtonPrompt();
+function rainbowButton() {
+    let rbwButton = document.getElementById('rbw-button');
+
+    rbwButton.addEventListener('click', () => {
+        toggleRainbowEffect();
+    });
+}
+
+function toggleRainbowEffect() {
+    let container = document.getElementById('container');
+    container.removeEventListener('mouseover', handleGridHover);
+    container.addEventListener('mouseover', handleRainbowHover);
+    
+    let cells = document.querySelectorAll('.grid-column');
+    cells.forEach((cell) => {
+        cell.classList.toggle('rainbow');
+    });
+}
+
+function handleRainbowHover(event) {
+    let cell = event.target;
+
+    if (cell.classList.contains('grid-column') && cell.classList.contains('rainbow')) {
+        cell.style.backgroundColor = randomColour();
+    }
+}
+
+function randomColour() {
+    return 'rgb(' + Math.floor(Math.random() * 256) + ',' +
+        Math.floor(Math.random() * 256) + ',' +
+        Math.floor(Math.random() * 256) + ')';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    createGrid(16, 16);
+    gridButtonPrompt();
+    rainbowButton();
+});
